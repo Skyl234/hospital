@@ -1,0 +1,174 @@
+<template>
+    <div class="clock">
+        <div class="numbers">
+            <span style="--i:0;"><b>12</b></span>
+            <span style="--i:1;"><b>3</b></span>
+            <span style="--i:2;"><b>6</b></span>
+            <span style="--i:3;"><b>9</b></span>
+            <div class="circle" id="hr"><i></i></div>
+            <div class="circle" id="mn"><i></i></div>
+            <div class="circle" id="sc"><i></i></div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            deg: 6,
+            hr: null,
+            mn: null,
+            sc: null
+        }
+    },
+    methods: {
+        updateClock() {
+            const day = new Date();
+            const hh = day.getHours() * 30;
+            const mm = day.getMinutes() * this.deg;
+            const ss = day.getSeconds() * this.deg;
+            this.hr.style.transform = `rotateZ(${hh + (mm / 12)}deg)`;
+            this.mn.style.transform = `rotateZ(${mm}deg)`;
+            this.sc.style.transform = `rotateZ(${ss}deg)`;
+        },
+    },
+    computed: {
+
+    },
+    watch: {
+
+    },
+    created() {
+
+    },
+    mounted() {
+        this.hr = this.$el.querySelector('#hr');
+        this.mn = this.$el.querySelector('#mn');
+        this.sc = this.$el.querySelector('#sc');
+        this.updateClock();
+        this.interval = setInterval(this.updateClock, 1000);
+    },
+    beforeDestroy() {
+        clearInterval(this.interval);
+    },
+
+}
+
+</script>
+
+<style>
+.clock {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background: rgba(240, 240, 240, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    box-shadow: 30px 30px 30px-10px rgba(0, 0, 0, 0.15),
+        inset 15px 15px 10px rgba(255, 255, 255, 0.75),
+        -15px -15px 35px rgba(255, 255, 255, 0.55),
+        inset -1px -1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.clock::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #e91e63;
+    border-radius: 50%;
+    z-index: 1000;
+    box-shadow: 0 0 0 1px #e91e63,
+        0 0 0 3px #fff,
+        0 0 5px 5px rgba(0, 0, 0, 0.15);
+}
+
+.clock .numbers {
+    position: absolute;
+    inset: 35px;
+    background: #152b4a;
+    border-radius: 50%;
+    box-shadow: 5px 5px 15px #152b4a66,
+        inset 5px 5px 5px rgba(255, 255, 255, 0.55),
+        -6px -6px 10px rgba(255, 255, 255, 1);
+}
+
+.clock .numbers span {
+    position: absolute;
+    inset: 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 1.25em;
+    transform: rotate(calc(90deg * var(--i)));
+}
+
+.clock .numbers span b {
+    font-weight: 600;
+    display: inline-block;
+    transform: rotate(calc(-90deg * var(--i)));
+}
+
+.clock .numbers::before {
+    content: '';
+    position: absolute;
+    inset: 35px;
+    background: linear-gradient(#2196f3, #e91e63);
+    border-radius: 50%;
+    animation: animate 2s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.clock .numbers::after {
+    content: '';
+    position: absolute;
+    inset: 38px;
+    background: #152b4a;
+    border-radius: 50%;
+    animation: animate 2s linear infinite;
+}
+
+.clock .numbers .circle {
+    position: absolute;
+    inset: 0;
+    border: 50%;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+}
+
+.clock .numbers .circle i {
+    position: absolute;
+    width: 3px;
+    height: 50%;
+    background: #fff;
+    transform-origin: bottom;
+}
+
+.clock .numbers .circle#hr i {
+    width: 4px;
+    transform: scaleY(0.3);
+}
+
+.clock .numbers .circle#mn i {
+    transform: scaleY(0.45);
+}
+
+.clock .numbers .circle#sc i {
+    width: 2px;
+    transform: scaleY(0.55);
+    background: #e91e63;
+    box-shadow: 0 30px 0 #e91e63;
+}
+</style>
