@@ -188,7 +188,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-image: url('./public/login.jpg');
+    background-image: url('./public/background.jpg');
     background-size: 100% 100%;
     background-attachment: fixed;
 }
