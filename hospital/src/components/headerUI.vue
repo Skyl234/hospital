@@ -40,7 +40,7 @@ export default {
         },
         toMain() {//点击图标跳转到默认首页
 
-            window.location.href = '/home'
+            window.location.href = '/'
         },
         getAvatarUrl() {//根据不同对象获取不同头像
             return '/public/patient.png'
